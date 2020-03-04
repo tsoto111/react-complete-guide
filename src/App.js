@@ -27,15 +27,32 @@ const app = (props) => {
     ]});
   }
   
+  const nameChangedHandler = (event) => {
+	setPersonsState({
+		persons: [
+		  {name: 'Tavo', age: '28'},
+		  {name: event.target.value, age: '31'},
+		  {name: 'Yejun', age: '1'}
+	  ]});
+  }
+
+  const style = {
+	  backgroundColor: 'white',
+	  font: 'inherit',
+	  border: '1px solid blue',
+    padding:'8px',
+    cursor: 'pointer',
+  };
+
   return (
     <div className="App">
 		  <h1>Hi, I am a React App</h1>
 		  <p>This is really working!</p>
       {/* One way of adding params back to function on call... This is a slower method.*/}
-      <button onClick={() => switchNameHandler('Tontolón')}>Switch Name</button>
+      <button style={style} onClick={() => switchNameHandler('Tontolón')}>Switch Name</button>
       <Person 
         name={personsState.persons[0].name}
-        age={personsState.persons[0].age} 
+        age={personsState.persons[0].age}
       />
       <Person 
         name={personsState.persons[1].name} 
@@ -43,7 +60,8 @@ const app = (props) => {
         customClickAction={
           // Another way of adding params back to function call... This is the recommened faster way
           switchNameHandler.bind(this,'Gustavo')
-        }
+		}
+		changed={nameChangedHandler}
       >
         My Hobbies: Singing, and Piano
       </Person>
