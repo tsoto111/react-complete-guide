@@ -55,31 +55,35 @@ const app = (props) => {
     })
   }
 
+  // Handle Person's show/hide content toggle
+  let persons = null;
+  if(showPersonsState.showPersons) {
+    persons = (
+      <div>
+	      <Person name={personsState.persons[0].name} age={personsState.persons[0].age} />
+        <Person 
+          name={personsState.persons[1].name} 
+          age={personsState.persons[1].age}
+          customClickAction={
+            // Another way of adding params back to function call... This is the recommened faster way
+            switchNameHandler.bind(this,'Gustavo')
+		      }
+		      changed={nameChangedHandler}
+        >
+          My Hobbies: Singing, and Piano
+        </Person>
+        <Person name={personsState.persons[2].name} age={personsState.persons[2].age} />
+	    </div>
+    );
+  }
+
   return (
     <div className="App">
 		  <h1>Hi, I am a React App</h1>
 		  <p>This is really working!</p>
       {/* One way of adding params back to function on call... This is a slower method.*/}
       <button style={style} onClick={togglePersonsHandler}>Switch Name</button>
-      { 
-        showPersonsState.showPersons ? 
-          <div>
-	          <Person name={personsState.persons[0].name} age={personsState.persons[0].age} />
-            <Person 
-              name={personsState.persons[1].name} 
-              age={personsState.persons[1].age}
-              customClickAction={
-                // Another way of adding params back to function call... This is the recommened faster way
-                switchNameHandler.bind(this,'Gustavo')
-		          }
-		          changed={nameChangedHandler}
-            >
-              My Hobbies: Singing, and Piano
-            </Person>
-            <Person name={personsState.persons[2].name} age={personsState.persons[2].age} />
-	        </div>
-          : null
-      }
+      { persons }
     </div>
 	);
 	// This is the exact same thing as above. This is just an example of what is happening under the hood...
