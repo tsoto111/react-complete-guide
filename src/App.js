@@ -17,6 +17,10 @@ const app = (props) => {
       ]
   });
 
+  const [showPersonsState, setShowPersonsState] = useState({
+    showPersons: false
+  });
+
   const switchNameHandler = (newName) => {
     // This will not merge, but replace the old state!!!
     setPersonsState({
@@ -44,31 +48,38 @@ const app = (props) => {
     cursor: 'pointer',
   };
 
+  const togglePersonsHandler = () => {
+    const doesShow = showPersonsState.showPersons;
+    setShowPersonsState({
+      showPersons: !doesShow
+    })
+  }
+
   return (
     <div className="App">
 		  <h1>Hi, I am a React App</h1>
 		  <p>This is really working!</p>
       {/* One way of adding params back to function on call... This is a slower method.*/}
-      <button style={style} onClick={() => switchNameHandler('Tontolón')}>Switch Name</button>
-      <Person 
-        name={personsState.persons[0].name}
-        age={personsState.persons[0].age}
-      />
-      <Person 
-        name={personsState.persons[1].name} 
-        age={personsState.persons[1].age}
-        customClickAction={
-          // Another way of adding params back to function call... This is the recommened faster way
-          switchNameHandler.bind(this,'Gustavo')
-		}
-		changed={nameChangedHandler}
-      >
-        My Hobbies: Singing, and Piano
-      </Person>
-      <Person 
-        name={personsState.persons[2].name} 
-        age={personsState.persons[2].age} 
-      />
+      <button style={style} onClick={togglePersonsHandler}>Switch Name</button>
+      { 
+        showPersonsState.showPersons ? 
+          <div>
+	          <Person name={personsState.persons[0].name} age={personsState.persons[0].age} />
+            <Person 
+              name={personsState.persons[1].name} 
+              age={personsState.persons[1].age}
+              customClickAction={
+                // Another way of adding params back to function call... This is the recommened faster way
+                switchNameHandler.bind(this,'Gustavo')
+		          }
+		          changed={nameChangedHandler}
+            >
+              My Hobbies: Singing, and Piano
+            </Person>
+            <Person name={personsState.persons[2].name} age={personsState.persons[2].age} />
+	        </div>
+          : null
+      }
     </div>
 	);
 	// This is the exact same thing as above. This is just an example of what is happening under the hood...
