@@ -21,24 +21,21 @@ const app = (props) => {
     showPersons: false
   });
 
-  const switchNameHandler = (newName) => {
-    // This will not merge, but replace the old state!!!
-    setPersonsState({
-      persons: [
-        {name: newName, age: '28'},
-        {name: 'HyeRee', age: '31'},
-        {name: 'Yejun', age: '1'}
-    ]});
+  const deletePersonHandler = (personIndex) => {
+    // Create a copy of personsState.persons instead of manipulating it!!!
+    const updatedPersons = [...personsState.persons];
+    updatedPersons.splice(personIndex, 1);
+    setPersonsState({persons: updatedPersons});
   }
   
-  const nameChangedHandler = (event) => {
-	setPersonsState({
-		persons: [
-		  {name: 'Tavo', age: '28'},
-		  {name: event.target.value, age: '31'},
-		  {name: 'Yejun', age: '1'}
-	  ]});
-  }
+  // const nameChangedHandler = (event) => {
+	// setPersonsState({
+	// 	persons: [
+	// 	  {name: 'Tavo', age: '28'},
+	// 	  {name: event.target.value, age: '31'},
+	// 	  {name: 'Yejun', age: '1'}
+	//   ]});
+  // }
 
   const style = {
 	  backgroundColor: 'white',
@@ -60,22 +57,21 @@ const app = (props) => {
   if(showPersonsState.showPersons) {
     persons = (
       <div>
-	      <Person name={personsState.persons[0].name} age={personsState.persons[0].age} />
-        <Person 
-          name={personsState.persons[1].name} 
-          age={personsState.persons[1].age}
-          customClickAction={
-            // Another way of adding params back to function call... This is the recommened faster way
-            switchNameHandler.bind(this,'Gustavo')
-		      }
-		      changed={nameChangedHandler}
-        >
-          My Hobbies: Singing, and Piano
-        </Person>
-        <Person name={personsState.persons[2].name} age={personsState.persons[2].age} />
+        { 
+          personsState.persons.map((person, index) => {
+            return <Person 
+              key={index} // This should typically be the id of the data from a DB!!!
+              customClickAction={deletePersonHandler.bind(this, index)}
+              name={person.name} 
+              age={person.age} 
+              />
+          })
+        }
 	    </div>
     );
   }
+
+
 
   return (
     <div className="App">
