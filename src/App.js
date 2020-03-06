@@ -11,9 +11,9 @@ const app = (props) => {
   // useState Hook method
   const [personsState, setPersonsState] = useState({
       persons: [
-        { name: 'Tavo', age: 28 }, 
-        { name: 'Scarlett', age: 31 }, 
-        { name: 'Parker', age: 2 }
+        { id: 'a', name: 'Tavo', age: 28 }, 
+        { id: 'b', name: 'Scarlett', age: 31 }, 
+        { id: 'c', name: 'Parker', age: 2 }
       ]
   });
 
@@ -28,14 +28,24 @@ const app = (props) => {
     setPersonsState({persons: updatedPersons});
   }
   
-  // const nameChangedHandler = (event) => {
-	// setPersonsState({
-	// 	persons: [
-	// 	  {name: 'Tavo', age: '28'},
-	// 	  {name: event.target.value, age: '31'},
-	// 	  {name: 'Yejun', age: '1'}
-	//   ]});
-  // }
+  const nameChangedHandler = (event, id) => {
+
+    console.log(event.target.value);
+
+    const updatedPersonIndex = personsState.persons.findIndex(person =>  {
+      return person.id === id
+    });
+
+    const person = { ...personsState.persons[updatedPersonIndex] }
+    person.name = event.target.value;
+
+    const persons = [...personsState.persons]
+    persons[updatedPersonIndex] = person;
+
+    setPersonsState({
+      persons: persons
+    });
+  }
 
   const style = {
 	  backgroundColor: 'white',
@@ -60,10 +70,11 @@ const app = (props) => {
         { 
           personsState.persons.map((person, index) => {
             return <Person 
-              key={index} // This should typically be the id of the data from a DB!!!
+              key={person.id}
               customClickAction={deletePersonHandler.bind(this, index)}
               name={person.name} 
-              age={person.age} 
+              age={person.age}
+              changed={(event) => {nameChangedHandler(event, person.id)}}
               />
           })
         }
