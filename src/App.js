@@ -6,7 +6,7 @@ import Person from './Person/Person';
 // class App extends Component {
 
 // Function based component
-const app = (props) => {
+const App = (props) => {
 
   // useState Hook method
   const [personsState, setPersonsState] = useState({
@@ -106,4 +106,4 @@ const app = (props) => {
 	// return React.createElement('div', null, React.createElement('h1', null, 'Does this work now?'));
 }
 
-export default app;
+export default App;
