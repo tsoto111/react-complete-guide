@@ -83,12 +83,20 @@ const app = (props) => {
     style.backgroundColor = 'red';
   }
 
+  const classes = [];
 
+  if( personsState.persons.length <= 2) {
+    classes.push('red'); // classes = ['red']
+  }
+
+  if( personsState.persons.length <= 1) {
+    classes.push('bold'); // classes = ['red', 'bold']
+  }
 
   return (
     <div className="App">
 		  <h1>Hi, I am a React App</h1>
-		  <p>This is really working!</p>
+		  <p className={classes.join(' ')}>This is really working!</p>
       {/* One way of adding params back to function on call... This is a slower method.*/}
       <button style={style} onClick={togglePersonsHandler}>Switch Name</button>
       { persons }
