@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import './App.css';
 import Person from './Person/Person';
+import Radium, { StyleRoot } from 'radium';
 
 // Class based component which extends Component
 // class App extends Component {
@@ -53,6 +54,11 @@ const App = (props) => {
 	  border: '1px solid blue',
     padding:'8px',
     cursor: 'pointer',
+    // How to use Radium to add psudo selectors in JSX Styles
+    ':hover': {
+      backgroundColor: 'lightgreen',
+      color: 'black',
+    }
   };
 
   const togglePersonsHandler = () => {
@@ -81,6 +87,11 @@ const App = (props) => {
 	    </div>
     );
     style.backgroundColor = 'red';
+    // How to use Radium to overwrite JSX styles
+    style[':hover'] = {
+      backgroundColor: 'salmon',
+      color: 'black'
+    }
   }
 
   const classes = [];
@@ -94,16 +105,19 @@ const App = (props) => {
   }
 
   return (
-    <div className="App">
-		  <h1>Hi, I am a React App</h1>
-		  <p className={classes.join(' ')}>This is really working!</p>
-      {/* One way of adding params back to function on call... This is a slower method.*/}
-      <button style={style} onClick={togglePersonsHandler}>Switch Name</button>
-      { persons }
-    </div>
+    <StyleRoot>
+      <div className="App">
+        <h1>Hi, I am a React App</h1>
+        <p className={classes.join(' ')}>This is really working!</p>
+        {/* One way of adding params back to function on call... This is a slower method.*/}
+        <button style={style} onClick={togglePersonsHandler}>Switch Name</button>
+        { persons }
+      </div>
+    </StyleRoot>
 	);
 	// This is the exact same thing as above. This is just an example of what is happening under the hood...
 	// return React.createElement('div', null, React.createElement('h1', null, 'Does this work now?'));
 }
 
-export default App;
+// Higher order commponent to wrap our app with Radium logic: Radium(...);
+export default Radium(App);
